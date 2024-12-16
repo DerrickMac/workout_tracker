@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
-import Logout from "@/components/Logout";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar";
 
 export default async function Dashboard() {
   const session = await auth();
@@ -8,9 +9,11 @@ export default async function Dashboard() {
   if (!session?.user) redirect("/");
 
   return (
-    <div className="flex flex-col items-center m-4">
-      <h1>Hello, {session?.user?.name}. This is your dashboard</h1>
-      <Logout />
-    </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <main>
+        <SidebarTrigger />
+      </main>
+    </SidebarProvider>
   );
 }
